@@ -8,4 +8,5 @@ dependencies = [
     "langchain>=0.3.28",
     "langchain-google-genai>=2.0.0",
     "python-dotenv>=1.0.0",
+    "ipython>=8.0.0",
 ]
