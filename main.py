@@ -143,9 +143,9 @@ agent_builder.add_edge("tool_node", "llm_call")
 agent = agent_builder.compile()
 
 
-from IPython.display import Image, display
+# from IPython.display import Image, display
 # Show the agent
-display(Image(agent.get_graph(xray=True).draw_mermaid_png()))
+# display(Image(agent.get_graph(xray=True).draw_mermaid_png()))
 
 # Invoke
 from langchain.messages import HumanMessage
