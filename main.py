@@ -1,18 +1,14 @@
 from dotenv import load_dotenv
-
-# Step 1: Define tools and model
-
-from langchain.tools import tool
 from langchain.chat_models import init_chat_model
 
+# Step 1: Define tools and model
+from langchain.tools import tool
 
 load_dotenv()
 
 
-model = init_chat_model(
-    "google_genai:gemini-2.5-flash",
-    temperature=0
-)
+model = init_chat_model("google_genai:gemini-2.5-flash", temperature=0)
+
 
 # Define tools
 @tool
@@ -55,14 +51,16 @@ model_with_tools = model.bind_tools(tools)
 
 # Step 2: Define state
 
-from langchain.messages import AnyMessage
-from typing_extensions import TypedDict, Annotated
 import operator
+
+from langchain.messages import AnyMessage
+from typing_extensions import Annotated, TypedDict
 
 
 class MessagesState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
+
 
 # Step 3: Define model node
 from langchain.messages import SystemMessage
@@ -82,7 +80,7 @@ def llm_call(state: dict):
                 + state["messages"]
             )
         ],
-        "llm_calls": state.get('llm_calls', 0) + 1
+        "llm_calls": state.get("llm_calls", 0) + 1,
     }
 
 
@@ -101,10 +99,12 @@ def tool_node(state: dict):
         result.append(ToolMessage(content=observation, tool_call_id=tool_call["id"]))
     return {"messages": result}
 
+
 # Step 5: Define logic to determine whether to end
 
 from typing import Literal
-from langgraph.graph import StateGraph, START, END
+
+from langgraph.graph import END, START, StateGraph
 
 
 # Conditional edge function to route to the tool node or end based upon whether the LLM made a tool call
@@ -121,6 +121,7 @@ def should_continue(state: MessagesState) -> Literal["tool_node", END]:
     # Otherwise, we stop (reply to the user)
     return END
 
+
 # Step 6: Build agent
 
 # Build workflow
@@ -132,11 +133,7 @@ agent_builder.add_node("tool_node", tool_node)
 
 # Add edges to connect nodes
 agent_builder.add_edge(START, "llm_call")
-agent_builder.add_conditional_edges(
-    "llm_call",
-    should_continue,
-    ["tool_node", END]
-)
+agent_builder.add_conditional_edges("llm_call", should_continue, ["tool_node", END])
 agent_builder.add_edge("tool_node", "llm_call")
 
 # Compile the agent
@@ -149,6 +146,7 @@ agent = agent_builder.compile()
 
 # Invoke
 from langchain.messages import HumanMessage
+
 messages = [HumanMessage(content="Add 3 and 4.")]
 messages = agent.invoke({"messages": messages})
 for m in messages["messages"]:
