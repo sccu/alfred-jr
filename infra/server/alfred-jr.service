@@ -1,0 +1,20 @@
+# systemd unit for alfred-jr server profile.
+# Copy to /etc/systemd/system/ and run:
+#   systemctl daemon-reload
+#   systemctl enable --now alfred-jr
+
+[Unit]
+Description=Alfred Jr. Teams Bot (server profile)
+After=network.target
+
+[Service]
+Type=simple
+User=<SERVICE_USER>
+WorkingDirectory=<REPO_PATH>
+Environment=PROFILE=server
+ExecStart=<REPO_PATH>/.venv/bin/uvicorn src.agent.server:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

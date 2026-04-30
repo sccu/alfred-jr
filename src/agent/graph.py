@@ -1,54 +1,50 @@
-"""LangGraph single-node graph template.
-
-Returns a predefined response. Replace logic and configuration as needed.
-"""
+"""LangGraph Q&A agent for Alfred Jr."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Annotated
+import operator
 
-from langgraph.graph import StateGraph
-from langgraph.runtime import Runtime
+from langchain_core.messages import AnyMessage, SystemMessage
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langgraph.graph import END, StateGraph, START
 from typing_extensions import TypedDict
 
+from agent.config import ProfileSettings, load_settings
+from agent.tools.registry import get_tools
 
-class Context(TypedDict):
-    """Context parameters for the agent.
-
-    Set these when creating assistants OR when invoking the graph.
-    See: https://langchain-ai.github.io/langgraph/cloud/how-tos/configuration_cloud/
-    """
-
-    my_configurable_param: str
+_SYSTEM_PROMPT = "You are Alfred Jr., a helpful AI assistant."
 
 
-@dataclass
-class State:
-    """Input state for the agent.
+class MessagesState(TypedDict):
+    """Agent state — accumulates messages across nodes."""
 
-    Defines the initial structure of incoming data.
-    See: https://langchain-ai.github.io/langgraph/concepts/low_level/#state
-    """
-
-    changeme: str = "example"
+    messages: Annotated[list[AnyMessage], operator.add]
 
 
-async def call_model(state: State, runtime: Runtime[Context]) -> Dict[str, Any]:
-    """Process input and returns output.
+def build_graph(settings: ProfileSettings):
+    """Build and compile the LangGraph agent for the given profile settings."""
+    tools = get_tools(settings.profile)
 
-    Can use runtime context to alter behavior.
-    """
-    return {
-        "changeme": "output from call_model. "
-        f"Configured with {(runtime.context or {}).get('my_configurable_param')}"
-    }
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash",
+        google_api_key=settings.gemini_api_key,
+        temperature=0,
+    )
+    model = llm.bind_tools(tools) if tools else llm
+
+    async def llm_call(state: MessagesState) -> dict:
+        response = await model.ainvoke(
+            [SystemMessage(content=_SYSTEM_PROMPT)] + state["messages"]
+        )
+        return {"messages": [response]}
+
+    builder = StateGraph(MessagesState)
+    builder.add_node("llm_call", llm_call)
+    builder.add_edge(START, "llm_call")
+    builder.add_edge("llm_call", END)
+    return builder.compile(name="alfred-jr")
 
 
-# Define the graph
-graph = (
-    StateGraph(State, context_schema=Context)
-    .add_node(call_model)
-    .add_edge("__start__", "call_model")
-    .compile(name="New Graph")
-)
+# Module-level graph instance used by langgraph.json
+graph = build_graph(load_settings())

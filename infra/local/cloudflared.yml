@@ -1,0 +1,17 @@
+# cloudflared named tunnel configuration for local profile.
+#
+# Setup (one-time):
+#   cloudflared login
+#   cloudflared tunnel create alfred-jr
+#   cloudflared tunnel route dns alfred-jr <YOUR_SUBDOMAIN>
+#
+# Run:
+#   cloudflared tunnel --config infra/local/cloudflared.yml run alfred-jr
+
+tunnel: alfred-jr
+credentials-file: ~/.cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: <YOUR_SUBDOMAIN>.cfargotunnel.com
+    service: http://localhost:8000
+  - service: http_status:404
