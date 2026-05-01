@@ -12,6 +12,7 @@ from langgraph.graph.state import CompiledStateGraph
 
 from agent.channels.base import BaseChannel
 from agent.config import ProfileSettings
+from agent.utils import extract_text
 
 
 class TeamsChannel(BaseChannel):
@@ -31,7 +32,7 @@ class TeamsChannel(BaseChannel):
                 result = await graph.ainvoke(
                     {"messages": [HumanMessage(content=turn.activity.text)]}
                 )
-                await turn.send_activity(result["messages"][-1].content)
+                await turn.send_activity(extract_text(result["messages"][-1].content))
 
         @app.post("/api/messages")
         async def messages(request: Request) -> Response:

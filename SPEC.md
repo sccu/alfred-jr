@@ -54,7 +54,14 @@ profile은 `PROFILE` 환경변수 하나로 선택한다. 코드 내 `if profile
               │
               ▼
      [LangGraph agent]           src/agent/graph.py
-       build_graph(settings)
+       build_graph(settings) — ReAct 루프
+              │
+              ├─→ [llm_call] ──tool call?──→ [tools] ──┐
+              │       ↑                                  │
+              │       └──────────────────────────────────┘
+              │       │ no tool call
+              │       ↓
+              │      END
               │
               ├── ProfileSettings    src/agent/config.py
               ├── Tool registry      src/agent/tools/registry.py
@@ -157,6 +164,7 @@ class ProfileSettings(BaseSettings):
 
     # 공통
     gemini_api_key: str
+    tavily_api_key: str = ""          # 웹 검색 tool (양 profile 공통)
 
     # local 전용
     tunnel_url: str = ""
@@ -194,19 +202,19 @@ from .server import SERVER_TOOLS
 from langchain_core.tools import BaseTool
 
 PROFILE_TOOLS: dict[str, list[BaseTool]] = {
-    "local":  COMMON_TOOLS,                        # v1: Q&A only
-    "server": COMMON_TOOLS + SERVER_TOOLS,         # v2+: 확장
+    "local":  COMMON_TOOLS + LOCAL_TOOLS,
+    "server": COMMON_TOOLS + SERVER_TOOLS,
 }
 
 def get_tools(profile: str) -> list[BaseTool]:
     return PROFILE_TOOLS.get(profile, COMMON_TOOLS)
 ```
 
-**v1 tool 목록:**
+**현재 tool 목록:**
 
-| Tool | common | local | server |
-|---|---|---|---|
-| (없음, Q&A only) | — | — | — |
+| Tool | common | local | server | 비고 |
+|---|---|---|---|---|
+| `TavilySearchResults` | ✅ | — | — | 웹 검색, ReAct |
 
 **v2+ 예정:**
 
@@ -217,6 +225,21 @@ def get_tools(profile: str) -> list[BaseTool]:
 | 맥북 앱 제어 | | ✅ | |
 | 사내 API 조회 | | | ✅ |
 | 사내 데이터 검색 | | | ✅ |
+
+**graph.py 구조 — ReAct 루프:**
+
+tool이 있는 경우 `llm_call → tools → llm_call` 루프를 반복하고, LLM이 tool 호출 없이 응답하면 종료한다.
+
+```python
+builder = StateGraph(MessagesState)
+builder.add_node("llm_call", llm_call)
+builder.add_node("tools", ToolNode(tools))
+builder.add_edge(START, "llm_call")
+builder.add_conditional_edges("llm_call", tools_condition)   # tool call → tools, 아니면 END
+builder.add_edge("tools", "llm_call")
+```
+
+tool이 없는 profile은 `ToolNode`와 조건부 엣지를 추가하지 않는다.
 
 ---
 
@@ -231,7 +254,8 @@ def get_tools(profile: str) -> list[BaseTool]:
 | 맥북 앱 제어 | ❌ (v1) → ✅ (v2+) | ❌ 영구 금지 | local 전용, 추가 시 확인 필요 |
 | 사내 API 조회 | ❌ 영구 금지 | ❌ (v1) → ✅ (v2+) | server 전용 |
 | 서버 자체 시스템 제어 | ❌ 영구 금지 | ❌ 영구 금지 | 어느 profile도 불가 |
-| 외부 인터넷 호출 | ❌ | ❌ | 추가 전 반드시 확인 |
+| 웹 검색 (Tavily) | ✅ | ✅ | 양 profile 공통, ReAct |
+| 외부 인터넷 호출 (기타) | ❌ | ❌ | 추가 전 반드시 확인 |
 
 ---
 
@@ -317,6 +341,7 @@ PROFILE=local
 
 # 공통
 GEMINI_API_KEY=
+TAVILY_API_KEY=
 
 # local 전용
 TUNNEL_URL=
@@ -339,6 +364,7 @@ INTERNAL_API_BASE_URL=
 dependencies = [
     "langchain>=1.0.0",
     "langchain-google-genai>=2.0.0",
+    "langchain-community>=0.3.0",
     "langgraph>=1.0.0",
     "fastapi>=0.110.0",
     "uvicorn>=0.29.0",

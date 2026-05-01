@@ -15,6 +15,12 @@ class ProfileSettings(BaseSettings):
 
     # Common
     gemini_api_key: str
+    tavily_api_key: str = ""
+
+    # LangSmith tracing (optional)
+    langsmith_api_key: str = ""
+    langsmith_tracing: str = "false"
+    langsmith_project: str = "alfred-jr"
     # Required by server.py for Bot Framework auth; optional during local graph-only use
     bot_app_id: str = ""
     bot_app_password: str = ""

@@ -1,13 +1,14 @@
-"""LangGraph Q&A agent for Alfred Jr."""
+"""LangGraph ReAct agent for Alfred Jr."""
 
 from __future__ import annotations
 
-from typing import Annotated
 import operator
+from typing import Annotated
 
 from langchain_core.messages import AnyMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.graph import END, StateGraph, START
+from langgraph.graph import END, START, StateGraph
+from langgraph.prebuilt import ToolNode, tools_condition
 from typing_extensions import TypedDict
 
 from agent.config import ProfileSettings, load_settings
@@ -23,8 +24,8 @@ class MessagesState(TypedDict):
 
 
 def build_graph(settings: ProfileSettings):
-    """Build and compile the LangGraph agent for the given profile settings."""
-    tools = get_tools(settings.profile)
+    """Build and compile the LangGraph ReAct agent for the given profile settings."""
+    tools = get_tools(settings.profile, settings)
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
@@ -42,7 +43,14 @@ def build_graph(settings: ProfileSettings):
     builder = StateGraph(MessagesState)
     builder.add_node("llm_call", llm_call)
     builder.add_edge(START, "llm_call")
-    builder.add_edge("llm_call", END)
+
+    if tools:
+        builder.add_node("tools", ToolNode(tools))
+        builder.add_conditional_edges("llm_call", tools_condition)
+        builder.add_edge("tools", "llm_call")
+    else:
+        builder.add_edge("llm_call", END)
+
     return builder.compile(name="alfred-jr")
 
 

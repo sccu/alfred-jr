@@ -12,6 +12,7 @@ dependencies = [
     "langgraph>=1.0.0",
     "langchain>=0.3.0",
     "langchain-google-genai>=2.0.0",
+    "langchain-tavily>=0.1.0",
     "fastapi>=0.110.0",
     "uvicorn>=0.29.0",
     "botbuilder-core>=4.16.0",

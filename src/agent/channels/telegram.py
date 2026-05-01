@@ -12,6 +12,7 @@ from telegram.ext import Application, MessageHandler, filters
 
 from agent.channels.base import BaseChannel
 from agent.config import ProfileSettings
+from agent.utils import extract_text
 
 
 class TelegramChannel(BaseChannel):
@@ -30,7 +31,7 @@ class TelegramChannel(BaseChannel):
             if not text:
                 return
             result = await graph.ainvoke({"messages": [HumanMessage(content=text)]})
-            reply = result["messages"][-1].content
+            reply = extract_text(result["messages"][-1].content)
             await update.message.reply_text(reply)
 
         ptb_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, _on_message))
