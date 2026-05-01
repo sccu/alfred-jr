@@ -18,8 +18,11 @@ class ProfileSettings(BaseSettings):
     # Required by server.py for Bot Framework auth; optional during local graph-only use
     bot_app_id: str = ""
     bot_app_password: str = ""
+    # Single Tenant bot registration (required since Multi Tenant deprecated July 2025)
+    bot_tenant_id: str = ""
 
     # local only
+    telegram_bot_token: str = ""
     tunnel_url: str = ""
 
     # server only

@@ -18,6 +18,7 @@ dependencies = [
     "botbuilder-integration-aiohttp>=4.16.0",
     "pydantic-settings>=2.0.0",
     "python-dotenv>=1.0.1",
+    "python-telegram-bot>=21.0.0",
 ]
 
 

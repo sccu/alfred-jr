@@ -1,16 +1,37 @@
 """Integration tests: Teams webhook → LangGraph agent."""
 
 import json
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
+
+from agent.channels.teams import TeamsChannel
+
+
+def _make_mock_graph(reply: str = "ok") -> MagicMock:
+    msg = MagicMock()
+    msg.content = reply
+    graph = MagicMock()
+    graph.ainvoke = AsyncMock(return_value={"messages": [msg]})
+    return graph
+
+
+def _make_mock_settings() -> MagicMock:
+    return MagicMock(bot_app_id="app-id", bot_app_password="password", bot_tenant_id="tenant")
 
 
 @pytest.fixture()
 def client():
-    with patch("agent.server._adapter.process_activity", new_callable=AsyncMock):
-        from agent.server import app
+    app = FastAPI()
+
+    @app.get("/health")
+    async def health():
+        return {"status": "ok", "profile": "server"}
+
+    with patch("botbuilder.core.BotFrameworkAdapter.process_activity", new_callable=AsyncMock):
+        TeamsChannel().mount(app, _make_mock_graph(), _make_mock_settings())
         with TestClient(app) as c:
             yield c
 

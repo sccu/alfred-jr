@@ -20,12 +20,13 @@ profile에 따라 활성화되는 도구(tool)와 권한이 달라지며, 인프
 | 항목 | `local` | `server` |
 |---|---|---|
 | 목적 | **개인 맥북 제어** — 파일·앱·시스템 명령 실행 | **사내 시스템 조회** — 데이터 접근, 구동 서버 제어 불가 |
+| 채널 | **Telegram** (개인 계정, bot token) | **Microsoft Teams** (Bot Framework) |
 | 도구 | 없음 (Q&A only, v1) → 맥북 제어 tool 확장 예정 | 없음 (Q&A only, v1) → 사내 API 조회 tool 확장 예정 |
 | 시스템 제어 | ✅ 맥북 (파일, 앱, 쉘 명령 등) | ❌ 서버 자체 제어 불가 |
 | 사내 시스템 접근 | ❌ | ✅ |
-| 네트워크 | cloudflared tunnel (터널 필요) | 직접 공인 엔드포인트 (터널 불필요) |
+| 네트워크 | ngrok 고정 tunnel | 직접 공인 엔드포인트 (터널 불필요) |
 | 프로세스 관리 | launchd (LaunchAgent) | systemd / 컨테이너 |
-| Teams bot | 개인용 bot 등록 | 전사용 bot 등록 |
+| 인증 | Telegram bot token | Azure Bot Framework 서명 검증 |
 | 설정 파일 | `.env.local` | `.env.server` |
 
 profile은 `PROFILE` 환경변수 하나로 선택한다. 코드 내 `if profile == "server"` 분기는
@@ -36,26 +37,28 @@ profile은 `PROFILE` 환경변수 하나로 선택한다. 코드 내 `if profile
 ## 3. 아키텍처
 
 ```
-[Teams 사용자]
-     │ HTTPS POST (Activity)
-     ▼
-[Microsoft Bot Framework]
-     │ webhook
-     ▼
-┌─── local: cloudflared named tunnel ───┐
-│    server: 직접 공인 엔드포인트        │
-└────────────────────────────────────────┘
-     │
-     ▼
-[FastAPI webhook server]      src/agent/server.py
-     │
-     ▼
-[LangGraph agent]             src/agent/graph.py
-  build_graph(profile)
-     │
-     ├── ProfileSettings      src/agent/config.py
-     ├── Tool registry        src/agent/tools/registry.py
-     └── Gemini model         google_genai
+[Telegram 사용자]          [Teams 사용자]
+       │ webhook                  │ HTTPS POST (Activity)
+       ▼                          ▼
+[ngrok tunnel]         [Bot Framework / 직접 엔드포인트]
+       │                          │
+       └──────────┬───────────────┘
+                  ▼
+     [FastAPI webhook server]     src/agent/server.py
+              │
+              ▼
+     [Channel registry]          src/agent/channels/registry.py
+      profile → 활성 채널 결정
+      ├── local  → TelegramChannel   src/agent/channels/telegram.py
+      └── server → TeamsChannel      src/agent/channels/teams.py
+              │
+              ▼
+     [LangGraph agent]           src/agent/graph.py
+       build_graph(settings)
+              │
+              ├── ProfileSettings    src/agent/config.py
+              ├── Tool registry      src/agent/tools/registry.py
+              └── Gemini model       google_genai
 ```
 
 ---
@@ -69,33 +72,41 @@ alfred-jr/
 │       ├── __init__.py
 │       ├── config.py              # ProfileSettings — 단일 진실 공급원
 │       ├── graph.py               # build_graph(settings) — profile-aware
-│       ├── server.py              # FastAPI webhook
+│       ├── server.py              # FastAPI + 채널 registry mount
 │       ├── client.py              # 로컬 테스트용 클라이언트
+│       ├── channels/
+│       │   ├── __init__.py
+│       │   ├── base.py            # 추상 Channel 인터페이스
+│       │   ├── registry.py        # PROFILE_CHANNELS — 단일 진실 공급원
+│       │   ├── teams.py           # Teams/Bot Framework 구현
+│       │   └── telegram.py        # Telegram Bot API 구현
 │       └── tools/
 │           ├── __init__.py
 │           ├── registry.py        # profile별 tool 목록 반환
 │           ├── common.py          # 모든 profile 공통 tool
-│           ├── local.py           # local 전용 tool (개발·디버그)
-│           └── server.py          # server 전용 tool (사내 시스템 등)
+│           ├── local.py           # local 전용 tool (맥북 제어)
+│           └── server.py          # server 전용 tool (사내 시스템)
 ├── infra/
 │   ├── local/
-│   │   ├── cloudflared.yml                  # named tunnel 설정
-│   │   └── com.alfred-jr.tunnel.plist       # launchd LaunchAgent
+│   │   ├── com.alfred-jr.tunnel.plist       # launchd — ngrok tunnel
+│   │   └── com.alfred-jr.server.plist       # launchd — FastAPI server
 │   └── server/
-│       ├── alfred-jr.service                # systemd unit (예시)
-│       └── Dockerfile                       # 컨테이너 배포용 (예시)
+│       ├── alfred-jr.service                # systemd unit
+│       └── Dockerfile
 ├── tests/
 │   ├── conftest.py
 │   ├── unit_tests/
 │   │   ├── __init__.py
-│   │   ├── test_config.py         # profile 설정 로딩 검증
-│   │   └── test_graph.py          # graph 로직 (mock 모델)
+│   │   ├── test_config.py
+│   │   ├── test_graph.py
+│   │   └── test_channels.py       # channel registry 검증
 │   └── integration_tests/
 │       ├── __init__.py
-│       └── test_webhook.py        # webhook → agent 전체 흐름
-├── .env.local                     # 로컬 개발용 환경변수
-├── .env.server                    # 서버 운영용 환경변수 (git 제외)
-├── .env.example                   # 필수 변수 목록 (git 포함)
+│       ├── test_telegram.py       # Telegram webhook → agent
+│       └── test_teams.py          # Teams webhook → agent
+├── .env.local
+├── .env.server
+├── .env.example
 ├── pyproject.toml
 ├── langgraph.json
 └── SPEC.md
@@ -103,7 +114,37 @@ alfred-jr/
 
 ---
 
-## 5. Config 설계 (`src/agent/config.py`)
+## 5. Channel Registry (`src/agent/channels/registry.py`)
+
+tool registry와 동일한 원칙으로 설계한다. profile별 활성 채널을 단일 위치에서 관리하며,
+`server.py`는 이 registry만 참조하고 채널 구현을 직접 알지 못한다.
+
+```python
+PROFILE_CHANNELS = {
+    "local":  ["telegram"],
+    "server": ["teams"],
+}
+
+def get_channels(profile: str) -> list[BaseChannel]:
+    ...
+```
+
+각 채널은 `BaseChannel.mount(app, graph, settings)` 구현으로 FastAPI에 라우트를 등록한다:
+- `TelegramChannel` → `POST /telegram/webhook`
+- `TeamsChannel`    → `POST /api/messages`
+
+**channel registry 원칙:**
+
+| 원칙 | tools | channels |
+|---|---|---|
+| 단일 진실 공급원 | `tools/registry.py` | `channels/registry.py` |
+| Cross-profile 혼용 금지 | ✅ | ✅ |
+| 새 항목 추가 위치 | registry + 전용 파일 | registry + 전용 파일 |
+| profile 분기 허용 위치 | registry만 | registry만 |
+
+---
+
+## 6. Config 설계 (`src/agent/config.py`)
 
 Pydantic `BaseSettings`로 환경변수를 읽고, profile에 따라 허용 tool 목록과 권한을 결정한다.
 
@@ -116,14 +157,16 @@ class ProfileSettings(BaseSettings):
 
     # 공통
     gemini_api_key: str
-    bot_app_id: str
-    bot_app_password: str
 
     # local 전용
-    tunnel_url: str = ""          # cloudflared subdomain
+    tunnel_url: str = ""
+    telegram_bot_token: str = ""      # Telegram BotFather에서 발급
 
     # server 전용
-    internal_api_base_url: str = ""   # 사내 시스템 엔드포인트
+    bot_app_id: str = ""
+    bot_app_password: str = ""
+    bot_tenant_id: str = ""
+    internal_api_base_url: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env.local",    # PROFILE에 따라 동적으로 교체
@@ -140,7 +183,7 @@ def load_settings() -> ProfileSettings:
 
 ---
 
-## 6. Tool Registry (`src/agent/tools/registry.py`)
+## 7. Tool Registry (`src/agent/tools/registry.py`)
 
 profile별 tool 목록을 단일 위치에서 관리한다. 새 tool 추가 시 이 파일만 수정한다.
 
@@ -177,7 +220,7 @@ def get_tools(profile: str) -> list[BaseTool]:
 
 ---
 
-## 7. 권한 매트릭스
+## 8. 권한 매트릭스
 
 | 권한 | local | server | 비고 |
 |---|---|---|---|
@@ -192,7 +235,7 @@ def get_tools(profile: str) -> list[BaseTool]:
 
 ---
 
-## 8. 인프라 설정
+## 9. 인프라 설정
 
 ### 8-1. Teams Bot 등록 (최초 1회)
 
@@ -274,13 +317,15 @@ PROFILE=local
 
 # 공통
 GEMINI_API_KEY=
-BOT_APP_ID=
-BOT_APP_PASSWORD=
 
 # local 전용
 TUNNEL_URL=
+TELEGRAM_BOT_TOKEN=
 
 # server 전용
+BOT_APP_ID=
+BOT_APP_PASSWORD=
+BOT_TENANT_ID=
 INTERNAL_API_BASE_URL=
 ```
 
@@ -299,6 +344,7 @@ dependencies = [
     "uvicorn>=0.29.0",
     "botbuilder-core>=4.16.0",
     "botbuilder-integration-aiohttp>=4.16.0",
+    "python-telegram-bot>=21.0.0",
     "pydantic-settings>=2.0.0",
     "python-dotenv>=1.0.0",
     "ipython>=8.0.0",

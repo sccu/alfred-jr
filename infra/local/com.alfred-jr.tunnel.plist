@@ -7,12 +7,11 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/bin/cloudflared</string>
-    <string>tunnel</string>
-    <string>--config</string>
-    <string>REPLACE_WITH_REPO_PATH/infra/local/cloudflared.yml</string>
-    <string>run</string>
-    <string>alfred-jr</string>
+    <string>/usr/local/bin/ngrok</string>
+    <string>http</string>
+    <string>8000</string>
+    <string>--domain=proofing-comply-grooving.ngrok-free.dev</string>
+    <string>--log=stdout</string>
   </array>
 
   <key>RunAtLoad</key>
