@@ -139,6 +139,7 @@ dependencies = [
     { name = "botbuilder-core" },
     { name = "botbuilder-integration-aiohttp" },
     { name = "fastapi" },
+    { name = "google-genai" },
     { name = "langchain" },
     { name = "langchain-google-genai" },
     { name = "langchain-tavily" },
@@ -146,6 +147,7 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "python-dotenv" },
     { name = "python-telegram-bot" },
+    { name = "todoist-api-python" },
     { name = "tzdata" },
     { name = "uvicorn" },
 ]
@@ -171,6 +173,7 @@ requires-dist = [
     { name = "botbuilder-core", specifier = ">=4.16.0" },
     { name = "botbuilder-integration-aiohttp", specifier = ">=4.16.0" },
     { name = "fastapi", specifier = ">=0.110.0" },
+    { name = "google-genai", specifier = ">=1.74.0" },
     { name = "langchain", specifier = ">=0.3.0" },
     { name = "langchain-google-genai", specifier = ">=2.0.0" },
     { name = "langchain-tavily", specifier = ">=0.1.0" },
@@ -180,6 +183,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "python-telegram-bot", specifier = ">=21.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6.1" },
+    { name = "todoist-api-python", specifier = ">=3.0.0" },
     { name = "tzdata", specifier = ">=2024.1" },
     { name = "uvicorn", specifier = ">=0.29.0" },
 ]
@@ -582,6 +586,18 @@ wheels = [
 ]
 
 [[package]]
+name = "dataclass-wizard"
+version = "0.39.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/36/ea/6b2811092feecbe9d672e3641196ac5fcbec6664074da5dec8b9fd9b9059/dataclass_wizard-0.39.1.tar.gz", hash = "sha256:1679948ed7c62103f40b34df97d03b35e6b2ad50f58173fdbe30074e2e4730f2", size = 361190, upload-time = "2026-01-06T03:30:57.054Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/a0/a221942b3fbbafaea4e211744d298366b6a9712c1aa336b05fc1c865ac0c/dataclass_wizard-0.39.1-py3-none-any.whl", hash = "sha256:3324e59eca705882eb34e2b3989b2beadd8c2b523e6269d4002cf1a4a5bf703b", size = 215344, upload-time = "2026-01-06T03:30:54.915Z" },
+]
+
+[[package]]
 name = "distro"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -746,7 +762,7 @@ requests = [
 
 [[package]]
 name = "google-genai"
-version = "1.73.1"
+version = "1.74.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -760,9 +776,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3d/d8/40f5f107e5a2976bbac52d421f04d14fc221b55a8f05e66be44b2f739fe6/google_genai-1.73.1.tar.gz", hash = "sha256:b637e3a3b9e2eccc46f27136d470165803de84eca52abfed2e7352081a4d5a15", size = 530998, upload-time = "2026-04-14T21:06:19.153Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/33/c8/4a8f1de0a3268d526a345b8c74456b3e1e6ffd200982626326cf7ca83e5b/google_genai-1.74.0.tar.gz", hash = "sha256:c4c473cebdeb6e5adbb0639326de66a3a85a2209e0d32de7d66bf05c698abae8", size = 536772, upload-time = "2026-04-29T22:16:35.881Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/65/af/508e0528015240d710c6763f7c89ff44fab9a94a80b4377e265d692cbfd6/google_genai-1.73.1-py3-none-any.whl", hash = "sha256:af2d2287d25e42a187de19811ef33beb2e347c7e2bdb4dc8c467d78254e43a2c", size = 783595, upload-time = "2026-04-14T21:06:17.464Z" },
+    { url = "https://files.pythonhosted.org/packages/ca/2b/539c328b66f7bfef2df869371a1789361228e5a7694ba02a642608367b46/google_genai-1.74.0-py3-none-any.whl", hash = "sha256:87d0b311c67d4b2a0ca741e9fc6891330c29defae81d46d8db41079aa1a3d80a", size = 790433, upload-time = "2026-04-29T22:16:33.979Z" },
 ]
 
 [[package]]
@@ -2321,6 +2337,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/47/c6/ee486fd809e357697ee8a44d3d69222b344920433d3b6666ccd9b374630c/tenacity-9.1.4.tar.gz", hash = "sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a", size = 49413, upload-time = "2026-02-07T10:45:33.841Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d7/c1/eb8f9debc45d3b7918a32ab756658a0904732f75e555402972246b0b8e71/tenacity-9.1.4-py3-none-any.whl", hash = "sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55", size = 28926, upload-time = "2026-02-07T10:45:32.24Z" },
+]
+
+[[package]]
+name = "todoist-api-python"
+version = "4.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "annotated-types" },
+    { name = "dataclass-wizard" },
+    { name = "httpx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0c/43/a3dcb178937026abbb8a7d8f7ddd86d8c390f3752766dfc26c072684d5b3/todoist_api_python-4.0.0.tar.gz", hash = "sha256:2e8acbaa4ea7aae05a640bd24690ca020ef8044610b0dcf4df85b8a788a43872", size = 24875, upload-time = "2026-03-25T10:11:13.318Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f0/43/7728ffb2118934a0b356316adfd0bc564400b1844ca804c24ecab2be424e/todoist_api_python-4.0.0-py3-none-any.whl", hash = "sha256:6b435f5fbf48da2faf7cb846a0de3b6719a33461958512d2adb4546494c195de", size = 28296, upload-time = "2026-03-25T10:11:12.091Z" },
 ]
 
 [[package]]

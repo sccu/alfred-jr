@@ -14,4 +14,8 @@ def get_common_tools(settings: ProfileSettings) -> list[BaseTool]:
         from langchain_tavily import TavilySearch
 
         tools.append(TavilySearch(tavily_api_key=settings.tavily_api_key, max_results=5))
+    if settings.todoist_api_token:
+        from agent.tools.todoist import create_todoist_tools
+
+        tools.extend(create_todoist_tools(settings.todoist_api_token))
     return tools

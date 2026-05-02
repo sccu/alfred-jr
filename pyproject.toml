@@ -21,6 +21,8 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "python-telegram-bot>=21.0.0",
     "tzdata>=2024.1",
+    "google-genai>=1.74.0",
+    "todoist-api-python>=3.0.0",
 ]
 
 

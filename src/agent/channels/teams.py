@@ -19,6 +19,10 @@ from agent.utils import extract_text
 class TeamsChannel(BaseChannel):
     """Bot Framework adapter mounted at /api/messages."""
 
+    def render(self, md: str) -> str:
+        """Teams natively renders markdown — pass through as-is."""
+        return md
+
     def mount(self, app: FastAPI, graph: CompiledStateGraph, settings: ProfileSettings) -> None:
         adapter = BotFrameworkAdapter(
             BotFrameworkAdapterSettings(
@@ -35,15 +39,17 @@ class TeamsChannel(BaseChannel):
                     if turn.activity.from_property
                     else ""
                 ) or ""
+                logging.info("[teams] %s: %s", user_name or "unknown", turn.activity.text)
                 try:
                     result = await asyncio.wait_for(
                         graph.ainvoke(
                             {"messages": [HumanMessage(content=turn.activity.text)]},
-                            config={"configurable": {"user_name": user_name, "response_format": "일반 텍스트만 사용"}},
+                            config={"configurable": {"user_name": user_name, "response_format": "마크다운으로 응답"}},
                         ),
                         timeout=30,
                     )
-                    await turn.send_activity(extract_text(result["messages"][-1].content))
+                    reply = self.render(extract_text(result["messages"][-1].content))
+                    await turn.send_activity(Activity(type="message", text=reply, text_format="markdown"))
                 except Exception as e:
                     logging.error("agent error: %s", e, exc_info=True)
                     await turn.send_activity("죄송합니다. 오류가 발생했습니다.")

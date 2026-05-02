@@ -70,6 +70,7 @@ def build_graph(settings: ProfileSettings):
         model="gemini-2.5-flash",
         google_api_key=settings.gemini_api_key,
         temperature=0,
+        thinking_budget=2048,
     )
     model = llm.bind_tools(tools) if tools else llm
 

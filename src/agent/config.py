@@ -16,6 +16,7 @@ class ProfileSettings(BaseSettings):
     # Common
     gemini_api_key: str
     tavily_api_key: str = ""
+    todoist_api_token: str = ""
 
     # LangSmith tracing (optional)
     langsmith_api_key: str = ""

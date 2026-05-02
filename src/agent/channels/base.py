@@ -19,6 +19,10 @@ class BaseChannel(ABC):
     def mount(self, app: FastAPI, graph: CompiledStateGraph, settings: ProfileSettings) -> None:
         """Register routes on the app. Called before app startup."""
 
+    @abstractmethod
+    def render(self, md: str) -> str:
+        """Convert Markdown to channel-native format."""
+
     @asynccontextmanager
     async def lifespan(self, app: FastAPI) -> AsyncGenerator[None, None]:
         """Override to add startup/shutdown logic. Default is a no-op."""
