@@ -20,16 +20,14 @@ def make_settings(**kwargs) -> ProfileSettings:
 @pytest.mark.anyio
 async def test_graph_returns_ai_message():
     settings = make_settings(profile="local")
-    compiled = build_graph(settings)
-
     mock_response = AIMessage(content="Hello!")
     with patch("agent.graph.ChatGoogleGenerativeAI") as MockLLM:
         mock_instance = MockLLM.return_value
         mock_instance.bind_tools.return_value = mock_instance
         mock_instance.ainvoke = AsyncMock(return_value=mock_response)
 
-        compiled2 = build_graph(settings)
-        result = await compiled2.ainvoke({"messages": [HumanMessage(content="Hi")]})
+        compiled = build_graph(settings)
+        result = await compiled.ainvoke({"messages": [HumanMessage(content="Hi")]})
 
     assert isinstance(result["messages"][-1], AIMessage)
 

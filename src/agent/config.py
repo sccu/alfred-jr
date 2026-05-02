@@ -39,6 +39,8 @@ class ProfileSettings(BaseSettings):
 
 def load_settings() -> ProfileSettings:
     """Load settings from .env.<profile>, falling back to .env if not found."""
+    # os.getenv is permitted here only: we need the profile value before ProfileSettings
+    # can be constructed, so there is no alternative to reading it from the environment directly.
     profile = os.getenv("PROFILE", "local")
     env_file = f".env.{profile}"
     if not os.path.exists(env_file):

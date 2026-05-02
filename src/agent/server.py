@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
+from contextlib import asynccontextmanager, AsyncExitStack
 
 from fastapi import FastAPI
 
@@ -26,10 +27,20 @@ def _setup_langsmith(settings: ProfileSettings) -> None:
 settings = load_settings()
 _setup_langsmith(settings)
 _graph = build_graph(settings)
+_channels = get_channels(settings.profile)
 
-app = FastAPI(title="Alfred Jr.")
 
-for _channel in get_channels(settings.profile):
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    async with AsyncExitStack() as stack:
+        for ch in _channels:
+            await stack.enter_async_context(ch.lifespan(app))
+        yield
+
+
+app = FastAPI(title="Alfred Jr.", lifespan=_lifespan)
+
+for _channel in _channels:
     _channel.mount(app, _graph, settings)
 
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from botbuilder.core import BotFrameworkAdapter, BotFrameworkAdapterSettings, TurnContext
@@ -29,10 +30,23 @@ class TeamsChannel(BaseChannel):
 
         async def _handle(turn: TurnContext) -> None:
             if turn.activity.type == "message" and turn.activity.text:
-                result = await graph.ainvoke(
-                    {"messages": [HumanMessage(content=turn.activity.text)]}
-                )
-                await turn.send_activity(extract_text(result["messages"][-1].content))
+                user_name = (
+                    turn.activity.from_property.name
+                    if turn.activity.from_property
+                    else ""
+                ) or ""
+                try:
+                    result = await asyncio.wait_for(
+                        graph.ainvoke(
+                            {"messages": [HumanMessage(content=turn.activity.text)]},
+                            config={"configurable": {"user_name": user_name, "response_format": "일반 텍스트만 사용"}},
+                        ),
+                        timeout=30,
+                    )
+                    await turn.send_activity(extract_text(result["messages"][-1].content))
+                except Exception as e:
+                    logging.error("agent error: %s", e, exc_info=True)
+                    await turn.send_activity("죄송합니다. 오류가 발생했습니다.")
 
         @app.post("/api/messages")
         async def messages(request: Request) -> Response:
@@ -45,6 +59,6 @@ class TeamsChannel(BaseChannel):
             try:
                 await adapter.process_activity(activity, auth_header, _handle)
             except Exception as e:
-                logging.error("process_activity failed: %s", e, exc_info=True)
+                logging.error("auth/framework error: %s", e, exc_info=True)
                 return Response(status_code=401)
             return Response(status_code=200)
