@@ -19,7 +19,12 @@ def _make_mock_graph(reply: str = "ok") -> MagicMock:
 
 
 def _make_mock_settings() -> MagicMock:
-    return MagicMock(bot_app_id="app-id", bot_app_password="password", bot_tenant_id="tenant")
+    return MagicMock(
+        bot_app_id="app-id",
+        bot_app_password="password",
+        bot_tenant_id="tenant",
+        gemini_api_key="test-key",
+    )
 
 
 @pytest.fixture()

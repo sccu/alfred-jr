@@ -1,0 +1,294 @@
+2026-05-03 22:00:40,388 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:00:41,192 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:00:41,438 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:00:41,440 INFO telegram.ext.Application: Application started
+2026-05-03 22:00:41,441 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:00:49,965 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:00:49,969 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:00:50,937 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:00:51,696 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:00:51,930 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:00:51,932 INFO telegram.ext.Application: Application started
+2026-05-03 22:00:51,933 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:03:23,384 INFO root: [telegram] 정운 장: 현재 아구 순위는?
+2026-05-03 22:03:30,954 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:12:46,029 INFO root: [telegram] 정운 장: 지난 대통령은?
+2026-05-03 22:12:46,055 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:12:47,336 INFO root: [telegram] context switch — history cleared for 8388492571
+2026-05-03 22:12:57,267 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:13:08,507 INFO root: [telegram] 정운 장: 현재 대통령은?
+2026-05-03 22:13:08,517 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:13:11,690 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:13:22,447 INFO root: [telegram] 정운 장: 몇 일 기준으로?
+2026-05-03 22:13:22,450 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:13:25,578 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:13:37,425 INFO root: [telegram] 정운 장: 현재 대통령 취임일은?
+2026-05-03 22:13:37,428 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:13:43,832 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:14:04,375 INFO root: [telegram] 정운 장: 확인 출처는?
+2026-05-03 22:14:04,381 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:14:10,386 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:14:44,587 INFO root: [telegram] 정운 장: 잘못된 정보이니 더 조사해.
+2026-05-03 22:14:44,589 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:14:51,037 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:16:22,005 INFO root: [telegram] 정운 장: 대한민국 현재 대통령은?
+2026-05-03 22:16:22,016 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:16:25,923 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:17:17,029 INFO root: [telegram] 정운 장: 출처 링크를 출력해
+2026-05-03 22:17:17,044 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:17:31,004 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 400 Bad Request"
+2026-05-03 22:17:31,014 ERROR root: agent error: Can't parse entities: can't find end of italic entity at byte offset 483
+Traceback (most recent call last):
+  File "/Users/jujang/repos/alfred-jr/src/agent/channels/telegram.py", line 180, in _on_message
+    await update.message.reply_text(reply, parse_mode=ParseMode.MARKDOWN_V2)
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/_message.py", line 2106, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/ext/_extbot.py", line 3118, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/_bot.py", line 1123, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/ext/_extbot.py", line 630, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/_bot.py", line 820, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/ext/_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/request/_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.BadRequest: Can't parse entities: can't find end of italic entity at byte offset 483
+2026-05-03 22:17:31,458 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:20:49,052 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:20:49,054 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:20:50,394 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:20:51,205 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:20:51,476 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:20:51,483 INFO telegram.ext.Application: Application started
+2026-05-03 22:20:51,484 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:21:37,162 INFO root: [telegram] 정운 장: 출처 링크를 출력해
+2026-05-03 22:21:39,575 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:21:58,209 INFO root: [telegram] 정운 장: 대한민국 현재 대통령을 확인한 출처 링크를 출력해
+2026-05-03 22:21:58,212 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:22:29,362 ERROR root: agent error: 
+Traceback (most recent call last):
+  File "/Users/jujang/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/tasks.py", line 500, in wait_for
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/pregel/main.py", line 3535, in ainvoke
+    async for chunk in self.astream(
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py", line 705, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/src/agent/graph.py", line 85, in llm_call
+    response = await model.ainvoke(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1680, in agenerate
+    results = await asyncio.gather(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/langchain_google_genai/chat_models.py", line 3112, in _agenerate
+    await self.client.aio.models.generate_content(
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/google/genai/models.py", line 8406, in generate_content
+    return await self._generate_content(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/google/genai/models.py", line 6951, in _generate_content
+    response = await self._api_client.async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/google/genai/_api_client.py", line 1625, in async_request
+    result = await self._async_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/google/genai/_api_client.py", line 1557, in _async_request
+    return await retry(self._async_request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/tenacity/__init__.py", line 393, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/google/genai/_api_client.py", line 1481, in _async_request_once
+    response = await self._aiohttp_session.request(  # type: ignore[union-attr]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 788, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 766, in _connect_and_send_request
+    await resp.start(conn)
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/aiohttp/client_reqrep.py", line 539, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/repos/alfred-jr/.venv/lib/python3.11/site-packages/aiohttp/streams.py", line 707, in read
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/jujang/repos/alfred-jr/src/agent/channels/telegram.py", line 66, in _on_message
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jujang/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/tasks.py", line 502, in wait_for
+    raise exceptions.TimeoutError() from exc
+TimeoutError
+2026-05-03 22:22:30,508 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:25:55,416 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:25:55,418 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:25:56,825 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:25:57,604 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:25:57,902 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:25:57,903 INFO telegram.ext.Application: Application started
+2026-05-03 22:25:57,904 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:26:02,065 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:26:02,066 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:26:03,113 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:26:04,003 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:26:04,243 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:26:04,244 INFO telegram.ext.Application: Application started
+2026-05-03 22:26:04,245 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:26:22,666 INFO root: [telegram] 정운 장: 링크 출력해
+2026-05-03 22:26:25,680 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:27:37,523 INFO root: [telegram] 정운 장: 대한민국 현재 대통령을 확인한 출처
+2026-05-03 22:27:37,535 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:27:44,850 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:28:17,042 INFO root: [telegram] 정운 장: 직접 확인하고 다시 말해
+2026-05-03 22:28:17,047 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:28:23,795 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:35:38,560 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:35:38,563 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:35:39,990 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:35:40,908 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:35:41,139 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:35:41,141 INFO telegram.ext.Application: Application started
+2026-05-03 22:35:41,141 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:35:44,686 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:35:44,687 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:35:45,659 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:35:46,651 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:35:46,892 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:35:46,896 INFO telegram.ext.Application: Application started
+2026-05-03 22:35:46,896 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:40:55,758 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:40:55,760 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:40:57,212 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:40:58,064 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:40:58,378 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:40:58,378 INFO telegram.ext.Application: Application started
+2026-05-03 22:40:58,379 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:41:24,700 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:41:24,701 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:41:27,418 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:41:28,242 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:41:28,479 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:41:28,486 INFO telegram.ext.Application: Application started
+2026-05-03 22:41:28,486 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:41:51,784 INFO root: [telegram] 정운 장: 대한민국 현재 대통령은?
+2026-05-03 22:41:53,169 INFO root: [tool] tavily_search args={"query": "대한민국 현재 대통령"}
+2026-05-03 22:41:56,291 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:43:34,592 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 22:43:34,595 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 22:43:37,312 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 22:43:38,198 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 22:43:38,485 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 22:43:38,487 INFO telegram.ext.Application: Application started
+2026-05-03 22:43:38,487 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 22:43:51,275 INFO root: [telegram] 정운 장: 현재 야당 대표는?
+2026-05-03 22:43:53,184 INFO root: [tool] tavily_search args={"query": "현재 야당 대표"}
+2026-05-03 22:43:58,405 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:46:10,625 INFO root: [telegram] 정운 장: 미국 야당 대표는?
+2026-05-03 22:46:10,628 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:46:14,595 INFO root: [tool] tavily_search args={"query": "미국 공화당 대표", "search_depth": "basic"}
+2026-05-03 22:46:18,921 INFO root: [tool] tavily_search args={"query": "미국 공화당 전국위원회 의장", "search_depth": "basic"}
+2026-05-03 22:46:18,922 INFO root: [tool] tavily_search args={"query": "미국 공화당 상원 원내대표", "search_depth": "basic"}
+2026-05-03 22:46:18,922 INFO root: [tool] tavily_search args={"search_depth": "basic", "query": "미국 공화당 하원 원내대표"}
+2026-05-03 22:46:27,715 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:46:46,236 INFO root: [telegram] 정운 장: 그럼 민주당이 여당이야?
+2026-05-03 22:46:46,237 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:46:48,589 INFO root: [tool] tavily_search args={"query": "현재 미국 여당"}
+2026-05-03 22:46:52,156 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:47:18,507 INFO root: [telegram] 정운 장: 2026년 미국 야당 대표?
+2026-05-03 22:47:18,511 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:47:21,310 INFO root: [tool] tavily_search args={"query": "who will be the republican party leaders in 2026? RNC chair, Senate Minority Leader, House Minority Leader"}
+2026-05-03 22:47:26,375 INFO root: [tool] tavily_search args={"query": "current Republican Party leadership May 2026 RNC chair, Senate Minority Leader, House Minority Leader"}
+2026-05-03 22:47:31,497 INFO root: [tool] tavily_search args={"query": "who is the current RNC chair May 2026, who is the current Senate Minority Leader May 2026, who is the current House Minority Leader May 2026"}
+2026-05-03 22:47:35,633 INFO root: [tool] tavily_search args={"query": "current RNC chair May 2026, current Senate Minority Leader May 2026, current House Minority Leader May 2026", "search_depth": "advanced"}
+2026-05-03 22:47:43,350 INFO root: [tool] tavily_search args={"query": "who is the current Speaker of the House May 2026, who is the current House Majority Leader May 2026, who is the current House Minority Leader May 2026"}
+2026-05-03 22:47:48,905 INFO root: [tool] tavily_search args={"query": "current House Minority Leader May 2026"}
+2026-05-03 22:47:54,326 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 22:51:18,845 INFO root: [telegram] 정운 장: 보건복지부 장관은?
+2026-05-03 22:51:18,879 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 22:51:21,661 INFO root: [tool] tavily_search args={"query": "보건복지부 장관"}
+2026-05-03 22:51:27,022 INFO root: [tool] tavily_search args={"query": "윤석열 정부 보건복지부 장관"}
+2026-05-03 22:51:32,764 INFO root: [tool] tavily_search args={"query": "현재 보건복지부 장관 2026년 5월"}
+2026-05-03 22:51:37,807 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 23:01:45,899 INFO telegram.ext.Application: Application is stopping. This might take a moment.
+2026-05-03 23:01:45,900 INFO telegram.ext.Application: Application.stop() complete
+2026-05-03 23:01:47,221 INFO root: LangSmith tracing enabled (project: alfred-jr)
+2026-05-03 23:01:47,992 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/getMe "HTTP/1.1 200 OK"
+2026-05-03 23:01:48,233 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/setWebhook "HTTP/1.1 200 OK"
+2026-05-03 23:01:48,235 INFO telegram.ext.Application: Application started
+2026-05-03 23:01:48,236 INFO root: Telegram webhook set to https://proofing-comply-grooving.ngrok-free.dev/telegram/webhook
+2026-05-03 23:02:31,756 INFO root: [telegram] 정운 장: 지난 대통령은?
+2026-05-03 23:02:33,877 INFO root: [tool] tavily_search args={"query": "대한민국 지난 대통령 2026-05-03"}
+2026-05-03 23:02:37,547 INFO root: [tool] tavily_search args={"query": "대한민국 20대 대통령"}
+2026-05-03 23:02:41,810 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 23:03:03,817 INFO root: [telegram] 정운 장: AI 수석 이름은?
+2026-05-03 23:03:03,827 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 23:03:06,909 INFO root: [tool] tavily_search args={"query": "대한민국 AI 수석 이름 2026-05-03"}
+2026-05-03 23:03:11,554 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 23:05:38,685 INFO root: [telegram] 정운 장: 핵폭탄을 개발한 프로젝트 이름은?
+2026-05-03 23:05:38,692 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 23:05:41,850 INFO root: [tool] tavily_search args={"query": "핵폭탄 개발 프로젝트 이름"}
+2026-05-03 23:05:46,178 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"
+2026-05-03 23:05:59,797 INFO root: [telegram] 정운 장: 참여 과학자는?
+2026-05-03 23:05:59,810 INFO google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-03 23:06:02,764 INFO root: [tool] tavily_search args={"query": "맨해튼 프로젝트 참여 과학자"}
+2026-05-03 23:06:07,562 INFO httpx: HTTP Request: POST https://api.telegram.org/bot8541607905:AAHMRzt56ioRtt_5lB6J4gqcCBGJqMv8O8Y/sendMessage "HTTP/1.1 200 OK"

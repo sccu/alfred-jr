@@ -32,6 +32,11 @@ class TeamsChannel(BaseChannel):
             )
         )
 
+        from agent.history import ConversationHistory, build_detection_llm, detect_context_switch
+
+        history = ConversationHistory()
+        detection_llm = build_detection_llm(settings)
+
         async def _handle(turn: TurnContext) -> None:
             if turn.activity.type == "message" and turn.activity.text:
                 user_name = (
@@ -39,16 +44,32 @@ class TeamsChannel(BaseChannel):
                     if turn.activity.from_property
                     else ""
                 ) or ""
+                user_id = turn.activity.from_property.id if turn.activity.from_property else turn.activity.conversation.id
                 logging.info("[teams] %s: %s", user_name or "unknown", turn.activity.text)
                 try:
+                    user_history = history.get(user_id)
+                    if user_history:
+                        try:
+                            switched = await asyncio.wait_for(
+                                detect_context_switch(detection_llm, user_history, turn.activity.text),
+                                timeout=5,
+                            )
+                        except asyncio.TimeoutError:
+                            switched = False
+                        if switched:
+                            logging.info("[teams] context switch — history cleared for %s", user_id)
+                            history.clear(user_id)
+                            user_history = []
                     result = await asyncio.wait_for(
                         graph.ainvoke(
-                            {"messages": [HumanMessage(content=turn.activity.text)]},
+                            {"messages": user_history + [HumanMessage(content=turn.activity.text)]},
                             config={"configurable": {"user_name": user_name, "response_format": "마크다운으로 응답"}},
                         ),
-                        timeout=30,
+                        timeout=60,
                     )
-                    reply = self.render(extract_text(result["messages"][-1].content))
+                    ai_msg = result["messages"][-1]
+                    history.add(user_id, HumanMessage(content=turn.activity.text), ai_msg)
+                    reply = self.render(extract_text(ai_msg.content))
                     await turn.send_activity(Activity(type="message", text=reply, text_format="markdown"))
                 except Exception as e:
                     logging.error("agent error: %s", e, exc_info=True)

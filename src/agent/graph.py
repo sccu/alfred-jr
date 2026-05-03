@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import logging
 import operator
 import zoneinfo
 from datetime import datetime
@@ -47,6 +49,10 @@ def _build_system_prompt(
         "- 타임존: Asia/Seoul (UTC+9)",
         f"- 실행 환경: {profile_desc}",
         f"- 사용 가능한 도구: {tool_list}",
+        "",
+        "## 웹 검색 지침",
+        "시점에 따라 답이 달라지는 질문(현재 상태, 최신 정보, 인물의 현직 등)을 검색할 때,"
+        f" 질문에 시점 정보가 없으면 현재 날짜({now.strftime('%Y년 %m월 %d일')})를 쿼리에 포함하라.",
     ]
     if user_name:
         lines.append(f"- 사용자: {user_name}")
@@ -70,7 +76,7 @@ def build_graph(settings: ProfileSettings):
         model="gemini-2.5-flash",
         google_api_key=settings.gemini_api_key,
         temperature=0,
-        thinking_budget=2048,
+        thinking_budget=4096,
     )
     model = llm.bind_tools(tools) if tools else llm
 
@@ -92,7 +98,26 @@ def build_graph(settings: ProfileSettings):
     builder.add_edge(START, "llm_call")
 
     if tools:
-        builder.add_node("tools", ToolNode(tools))
+        _tool_node = ToolNode(tools)
+
+        async def logged_tools(state: MessagesState) -> dict:
+            last = state["messages"][-1]
+            for tc in getattr(last, "tool_calls", []):
+                logging.info("[tool] %s args=%s", tc["name"], json.dumps(tc.get("args", {}), ensure_ascii=False))
+            result = await _tool_node.ainvoke(state)
+            for msg in result.get("messages", []):
+                raw = getattr(msg, "content", None)
+                try:
+                    parsed = json.loads(raw) if isinstance(raw, str) else raw
+                    if isinstance(parsed, list):
+                        for item in parsed:
+                            if isinstance(item, dict) and "url" in item:
+                                logging.info("[tool:search] %s — %s", item["url"], item.get("title", ""))
+                except (json.JSONDecodeError, TypeError):
+                    pass
+            return result
+
+        builder.add_node("tools", logged_tools)
         builder.add_conditional_edges("llm_call", tools_condition)
         builder.add_edge("tools", "llm_call")
     else:
