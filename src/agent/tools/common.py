@@ -18,4 +18,8 @@ def get_common_tools(settings: ProfileSettings) -> list[BaseTool]:
         from agent.tools.todoist import create_todoist_tools
 
         tools.extend(create_todoist_tools(settings.todoist_api_token))
+    if settings.gmail_credentials_path:
+        from agent.tools.gmail import create_gmail_tools
+
+        tools.extend(create_gmail_tools(settings.gmail_credentials_path))
     return tools

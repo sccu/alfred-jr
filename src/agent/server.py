@@ -28,6 +28,8 @@ def _setup_logging(log_dir: str = "logs") -> None:
     logging.basicConfig(level=logging.INFO, handlers=[file_handler, console_handler])
 
 
+_setup_logging()
+
 from agent.channels.registry import get_channels
 from agent.config import ProfileSettings, load_settings
 from agent.graph import build_graph
@@ -40,9 +42,6 @@ def _setup_langsmith(settings: ProfileSettings) -> None:
     os.environ["LANGSMITH_TRACING"] = settings.langsmith_tracing
     os.environ["LANGSMITH_PROJECT"] = settings.langsmith_project
     logging.info("LangSmith tracing enabled (project: %s)", settings.langsmith_project)
-
-
-_setup_logging()
 settings = load_settings()
 _setup_langsmith(settings)
 _graph = build_graph(settings)

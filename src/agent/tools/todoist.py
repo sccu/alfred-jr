@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from langchain_core.tools import BaseTool, tool
 
 
@@ -15,15 +17,22 @@ def create_todoist_tools(token: str) -> list[BaseTool]:
     def list_tasks(filter: str = "") -> str:
         """Todoist 할일 목록을 조회한다. filter에 'today', 'overdue', '7 days' 등 Todoist 필터 문법을 사용할 수 있다."""
         try:
-            tasks = api.get_tasks(filter=filter or None)
+            query = filter or "view all"
+            pages = api.filter_tasks(query=query)
+            tasks = [t for page in pages for t in page]
             if not tasks:
                 return "할일이 없습니다."
+            total = len(tasks)
             lines = []
-            for t in tasks[:20]:
+            for t in tasks[:10]:
                 due = t.due.string if t.due else "없음"
                 lines.append(f"[{t.id}] {t.content} (마감: {due})")
-            return "\n".join(lines)
+            result = "\n".join(lines)
+            if total > 10:
+                result += f"\n(처음 10개, 총 {total}개)"
+            return result
         except Exception as e:
+            logging.error("[todoist] list_tasks 실패: %s", e, exc_info=True)
             return f"조회 실패: {e}"
 
     @tool
@@ -36,6 +45,7 @@ def create_todoist_tools(token: str) -> list[BaseTool]:
             task = api.add_task(**kwargs)
             return f"추가됨: [{task.id}] {task.content}"
         except Exception as e:
+            logging.error("[todoist] add_task 실패: %s", e, exc_info=True)
             return f"추가 실패: {e}"
 
     @tool
@@ -45,6 +55,7 @@ def create_todoist_tools(token: str) -> list[BaseTool]:
             api.close_task(task_id=task_id)
             return f"완료 처리됨: {task_id}"
         except Exception as e:
+            logging.error("[todoist] complete_task 실패: %s", e, exc_info=True)
             return f"완료 처리 실패: {e}"
 
     @tool
@@ -54,6 +65,7 @@ def create_todoist_tools(token: str) -> list[BaseTool]:
             api.delete_task(task_id=task_id)
             return f"삭제됨: {task_id}"
         except Exception as e:
+            logging.error("[todoist] delete_task 실패: %s", e, exc_info=True)
             return f"삭제 실패: {e}"
 
     return [list_tasks, add_task, complete_task, delete_task]

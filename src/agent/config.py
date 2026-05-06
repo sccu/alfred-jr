@@ -17,6 +17,7 @@ class ProfileSettings(BaseSettings):
     gemini_api_key: str
     tavily_api_key: str = ""
     todoist_api_token: str = ""
+    gmail_credentials_path: str = ""
 
     # LangSmith tracing (optional)
     langsmith_api_key: str = ""

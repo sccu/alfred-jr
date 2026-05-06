@@ -2,22 +2,21 @@
 
 from __future__ import annotations
 
-import asyncio
 import logging
 
 from botbuilder.core import BotFrameworkAdapter, BotFrameworkAdapterSettings, TurnContext
 from botbuilder.schema import Activity
 from fastapi import FastAPI, Request, Response
-from langchain_core.messages import HumanMessage
 from langgraph.graph.state import CompiledStateGraph
 
 from agent.channels.base import BaseChannel
 from agent.config import ProfileSettings
-from agent.utils import extract_text
 
 
 class TeamsChannel(BaseChannel):
     """Bot Framework adapter mounted at /api/messages."""
+
+    channel_name = "teams"
 
     def render(self, md: str) -> str:
         """Teams natively renders markdown — pass through as-is."""
@@ -32,11 +31,6 @@ class TeamsChannel(BaseChannel):
             )
         )
 
-        from agent.history import ConversationHistory, build_detection_llm, detect_context_switch
-
-        history = ConversationHistory()
-        detection_llm = build_detection_llm(settings)
-
         async def _handle(turn: TurnContext) -> None:
             if turn.activity.type == "message" and turn.activity.text:
                 user_name = (
@@ -45,35 +39,11 @@ class TeamsChannel(BaseChannel):
                     else ""
                 ) or ""
                 user_id = turn.activity.from_property.id if turn.activity.from_property else turn.activity.conversation.id
-                logging.info("[teams] %s: %s", user_name or "unknown", turn.activity.text)
-                try:
-                    user_history = history.get(user_id)
-                    if user_history:
-                        try:
-                            switched = await asyncio.wait_for(
-                                detect_context_switch(detection_llm, user_history, turn.activity.text),
-                                timeout=5,
-                            )
-                        except asyncio.TimeoutError:
-                            switched = False
-                        if switched:
-                            logging.info("[teams] context switch — history cleared for %s", user_id)
-                            history.clear(user_id)
-                            user_history = []
-                    result = await asyncio.wait_for(
-                        graph.ainvoke(
-                            {"messages": user_history + [HumanMessage(content=turn.activity.text)]},
-                            config={"configurable": {"user_name": user_name, "response_format": "마크다운으로 응답"}},
-                        ),
-                        timeout=60,
-                    )
-                    ai_msg = result["messages"][-1]
-                    history.add(user_id, HumanMessage(content=turn.activity.text), ai_msg)
-                    reply = self.render(extract_text(ai_msg.content))
+
+                async def send_reply(reply: str) -> None:
                     await turn.send_activity(Activity(type="message", text=reply, text_format="markdown"))
-                except Exception as e:
-                    logging.error("agent error: %s", e, exc_info=True)
-                    await turn.send_activity("죄송합니다. 오류가 발생했습니다.")
+
+                await self.handle(graph, user_id, user_name, turn.activity.text, send_reply)
 
         @app.post("/api/messages")
         async def messages(request: Request) -> Response:

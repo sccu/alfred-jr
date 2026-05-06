@@ -106,6 +106,9 @@ def build_graph(settings: ProfileSettings):
                 logging.info("[tool] %s args=%s", tc["name"], json.dumps(tc.get("args", {}), ensure_ascii=False))
             result = await _tool_node.ainvoke(state)
             for msg in result.get("messages", []):
+                if getattr(msg, "status", None) == "error":
+                    logging.error("[tool:error] %s — %s", getattr(msg, "name", "unknown"), msg.content)
+                    continue
                 raw = getattr(msg, "content", None)
                 try:
                     parsed = json.loads(raw) if isinstance(raw, str) else raw
