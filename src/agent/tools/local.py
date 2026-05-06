@@ -18,6 +18,7 @@ _SENSITIVE_DIRS = (
 _SENSITIVE_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx"})
 _SENSITIVE_NAMES = frozenset({"id_rsa", "id_ed25519", "id_ecdsa", "id_dsa"})
 _MAX_BYTES = 50 * 1024  # 50 KB
+_IMAGE_SUFFIXES = frozenset({".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"})
 
 
 def _is_sensitive(path: Path) -> bool:
@@ -37,9 +38,26 @@ def _is_sensitive(path: Path) -> bool:
     return False
 
 
+def _read_pdf(path: Path) -> str:
+    from pypdf import PdfReader
+
+    reader = PdfReader(str(path))
+    pages = []
+    for i, page in enumerate(reader.pages):
+        text = (page.extract_text() or "").strip()
+        if text:
+            pages.append(f"[페이지 {i + 1}]\n{text}")
+    if not pages:
+        return "텍스트를 추출할 수 없습니다 (스캔 이미지 PDF일 수 있습니다)."
+    full = "\n\n".join(pages)
+    if len(full.encode()) > _MAX_BYTES:
+        return full.encode()[:_MAX_BYTES].decode(errors="replace") + "\n\n[50KB 초과 — 앞부분만 반환]"
+    return full
+
+
 @tool
 def read_file(path: str) -> str:
-    """로컬 파일을 읽어 내용을 반환한다. 50KB 초과 시 앞부분만 반환한다."""
+    """로컬 파일을 읽어 내용을 반환한다. PDF와 텍스트 파일을 지원하며 50KB 초과 시 앞부분만 반환한다."""
     try:
         p = Path(path).expanduser().resolve()
         if _is_sensitive(p):
@@ -48,6 +66,8 @@ def read_file(path: str) -> str:
             return f"파일 없음: {path}"
         if not p.is_file():
             return f"파일이 아님: {path}"
+        if p.suffix.lower() == ".pdf":
+            return _read_pdf(p)
         raw = p.read_bytes()
         text = raw[:_MAX_BYTES].decode("utf-8", errors="replace")
         if len(raw) > _MAX_BYTES:

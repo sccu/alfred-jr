@@ -51,7 +51,7 @@ class BaseChannel(ABC):
             result = await asyncio.wait_for(
                 graph.ainvoke(
                     {"messages": user_history + [HumanMessage(content=text)]},
-                    config={"configurable": {"user_name": user_name, "response_format": "마크다운으로 응답"}},
+                    config={"configurable": {"user_id": user_id, "user_name": user_name, "response_format": "마크다운으로 응답"}},
                 ),
                 timeout=_AGENT_TIMEOUT,
             )

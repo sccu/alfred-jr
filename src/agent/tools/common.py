@@ -22,4 +22,8 @@ def get_common_tools(settings: ProfileSettings) -> list[BaseTool]:
         from agent.tools.gmail import create_gmail_tools
 
         tools.extend(create_gmail_tools(settings.gmail_credentials_path))
+    if settings.telegram_bot_token:
+        from agent.tools.media import create_media_tools
+
+        tools.extend(create_media_tools(settings.telegram_bot_token))
     return tools
