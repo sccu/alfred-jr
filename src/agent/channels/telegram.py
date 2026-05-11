@@ -43,7 +43,8 @@ class TelegramChannel(BaseChannel):
                 return
             user_name = update.effective_user.full_name if update.effective_user else ""
             user_id = str(update.effective_chat.id)
-            await self.handle(graph, user_id, user_name, text, update.message.reply_text)
+            reply = await self.handle(graph, user_id, user_name, text)
+            await update.message.reply_text(reply)
 
         self._ptb_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, _on_message))
 

@@ -42,9 +42,8 @@ class BaseChannel(ABC):
         user_id: str,
         user_name: str,
         text: str,
-        send_reply: Callable[[str], Awaitable[Any]],
-    ) -> None:
-        """Log the incoming message, invoke the agent, and dispatch the reply."""
+    ) -> str:
+        """Log the incoming message, invoke the agent, and return the reply text."""
         logging.info("[%s] %s: %s", self.channel_name, user_name or "unknown", text)
         try:
             user_history = self._history.get(user_id)
@@ -57,10 +56,10 @@ class BaseChannel(ABC):
             )
             ai_msg = result["messages"][-1]
             self._history.add(user_id, HumanMessage(content=text), ai_msg)
-            await send_reply(self.render(extract_text(ai_msg.content)))
+            return self.render(extract_text(ai_msg.content))
         except Exception as e:
             logging.error("agent error: %s", e, exc_info=True)
-            await send_reply(_ERROR_REPLY)
+            return _ERROR_REPLY
 
     @asynccontextmanager
     async def lifespan(self, app: FastAPI) -> AsyncGenerator[None, None]:

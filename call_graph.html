@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Vertical Call Graph</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background: #f6f8fa;
+            margin: 0;
+        }
+        h1 { color: #24292f; margin-bottom: 20px; font-size: 1.5rem; }
+        .graph-container { 
+            width: 95vw; 
+            max-width: 1200px;
+            background: white; 
+            padding: 20px; 
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden; 
+        }
+        .mermaid { 
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Function Call Graph</h1>
+    <div class="graph-container">
+        <div class="mermaid">
+graph TD
+    n93a103d2["channels/base.py:handle"]
+    n0b83a1cc["tools/common.py:get_common_tools"]
+    n781b6a63["server.py:_lifespan"]
+    n60147d04["history.py:get"]
+    n2b60c1ae["graph.py:build_graph"]
+    n7916813f["graph.py:logged_tools"]
+    n077779a0["channels/telegram.py:__init__"]
+    n170fb60c["channels/base.py:render"]
+    n273f38c1["utils.py:extract_text"]
+    n753a8b25["channels/base.py:mount"]
+    n400631d2["channels/teams.py:send_reply"]
+    n8289d2c7["tools/local.py:read_file"]
+    nf2e05204["config.py:load_settings"]
+    n60da287a["server.py:_setup_langsmith"]
+    n8e1c2921["channels/base.py:lifespan"]
+    n20c69d02["tools/local.py:list_directory"]
+    na6084a6d["channels/teams.py:messages"]
+    nd865fa8e["channels/telegram.py:telegram_webhook"]
+    nb700153a["graph.py:llm_call"]
+    nef8f53bf["tools/gmail.py:create_gmail_tools"]
+    n1fa5f608["graph.py:_build_system_prompt"]
+    n080b6469["channels/base.py:__init__"]
+    ndcd834e2["tools/todoist.py:create_todoist_tools"]
+    nee9327dd["tools/local.py:_read_pdf"]
+    nb8dd9901["channels/telegram.py:_on_message"]
+    n5fdedd6b["tools/media.py:create_media_tools"]
+    n275b0eed["channels/registry.py:get_channels"]
+    nf22d7764["history.py:add"]
+    n0c1ec4f1["tools/local.py:_is_sensitive"]
+    ndf231ba1["tools/registry.py:get_tools"]
+    n5cbfc2c8["tools/media.py:send_image"]
+    ndf231ba1 --> n0b83a1cc
+    n60da287a --> n2b60c1ae
+    n400631d2 --> n93a103d2
+    n275b0eed --> n60147d04
+    n8289d2c7 --> nee9327dd
+    n781b6a63 --> n8e1c2921
+    n93a103d2 --> n170fb60c
+    n60da287a --> nf2e05204
+    n0b83a1cc --> ndcd834e2
+    n077779a0 --> n080b6469
+    n20c69d02 --> n0c1ec4f1
+    n2b60c1ae --> ndf231ba1
+    n7916813f --> n60147d04
+    n7916813f --> n2b60c1ae
+    n781b6a63 --> n60147d04
+    nb700153a --> n60147d04
+    n93a103d2 --> n400631d2
+    nef8f53bf --> ndf231ba1
+    n7916813f --> nf2e05204
+    n93a103d2 --> n273f38c1
+    n273f38c1 --> n60147d04
+    n93a103d2 --> n60147d04
+    n60da287a --> n275b0eed
+    n781b6a63 --> n753a8b25
+    n1fa5f608 --> n60147d04
+    ndf231ba1 --> n60147d04
+    nb8dd9901 --> n93a103d2
+    n0b83a1cc --> nef8f53bf
+    n5cbfc2c8 --> n60147d04
+    n93a103d2 --> nf22d7764
+    n5cbfc2c8 --> n0c1ec4f1
+    na6084a6d --> n60147d04
+    nb700153a --> n1fa5f608
+    nd865fa8e --> n60147d04
+    n8289d2c7 --> n0c1ec4f1
+    n0b83a1cc --> n5fdedd6b
+    nee9327dd --> n273f38c1
+
+        </div>
+    </div>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            securityLevel: 'loose',
+            theme: 'neutral',
+            themeVariables: {
+                fontSize: '14px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+            },
+            flowchart: { 
+                rankSpacing: 100,
+                nodeSpacing: 40,
+                curve: 'basis',
+                useMaxWidth: true
+            }
+        });
+    </script>
+</body>
+</html>

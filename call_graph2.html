@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Updated Vertical Call Graph</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            padding: 40px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background: #f6f8fa;
+            margin: 0;
+        }
+        h1 { color: #24292f; margin-bottom: 30px; }
+        .graph-container { 
+            width: 700px; 
+            background: white; 
+            padding: 30px; 
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: visible;
+        }
+        .mermaid { 
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Function Call Graph (After Refactoring)</h1>
+    <div class="graph-container">
+        <div class="mermaid">
+graph TD
+    nBaseHandle["channels/base.py:handle"]
+    nTeamsHandle["channels/teams.py:_handle"]
+    nTeleHandle["channels/telegram.py:_on_message"]
+    nBaseRender["channels/base.py:render"]
+    nTeamsRender["channels/teams.py:render"]
+    nTeleRender["channels/telegram.py:render"]
+    nHistoryGet["history.py:get"]
+    nHistoryAdd["history.py:add"]
+    nExtractText["utils.py:extract_text"]
+    nGraphInvoke["graph.py:ainvoke"]
+    nGetTools["tools/registry.py:get_tools"]
+    nCommonTools["tools/common.py:get_common_tools"]
+
+    nTeamsHandle --> nBaseHandle
+    nTeleHandle --> nBaseHandle
+    
+    nBaseHandle --> nHistoryGet
+    nBaseHandle --> nGraphInvoke
+    nBaseHandle --> nHistoryAdd
+    nBaseHandle --> nExtractText
+    nBaseHandle --> nBaseRender
+
+    nBaseRender -.-> nTeamsRender
+    nBaseRender -.-> nTeleRender
+
+    nGetTools --> nCommonTools
+        </div>
+    </div>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            securityLevel: 'loose',
+            theme: 'neutral',
+            themeVariables: {
+                fontSize: '18px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+            },
+            flowchart: { 
+                rankSpacing: 120,
+                nodeSpacing: 50,
+                curve: 'basis',
+                useMaxWidth: true
+            }
+        });
+    </script>
+</body>
+</html>

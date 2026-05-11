@@ -40,10 +40,8 @@ class TeamsChannel(BaseChannel):
                 ) or ""
                 user_id = turn.activity.from_property.id if turn.activity.from_property else turn.activity.conversation.id
 
-                async def send_reply(reply: str) -> None:
-                    await turn.send_activity(Activity(type="message", text=reply, text_format="markdown"))
-
-                await self.handle(graph, user_id, user_name, turn.activity.text, send_reply)
+                reply = await self.handle(graph, user_id, user_name, turn.activity.text)
+                await turn.send_activity(Activity(type="message", text=reply, text_format="markdown"))
 
         @app.post("/api/messages")
         async def messages(request: Request) -> Response:
